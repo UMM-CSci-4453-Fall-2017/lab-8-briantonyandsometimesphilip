@@ -1,0 +1,25 @@
+{
+  "name": "lab-7-taco-kimchi-1",
+  "version": "1.0.0",
+  "description": "## Table of Contents - [Asynchronous node](#asynchronous-node)   - [Approach One: Coordinate using a data structure](#approach-one--coordinate-using-a-data-structure)   - [Approach Two: Using promises](#approach-two--using-promises)     - [What is a promise](#what-is-a-promise)     - [Back to databases](#back-to-databases)     - [Bringing in promises](#bringing-in-promises)     - [Connection pools and promises](#connection-pools-and-promises)     - [Making things a bit cleaner](#making-things-a-bit-cleaner)     - [More about promises in general](#more-about-promises-in-general) - [Angular](#angular)   - [Working our way up to it](#working-our-way-up-to-it)   - [An angular tutorial](#an-angular-tutorial)   - [Complicating the web server](#complicating-the-web-server)   - [Mixing in a little database](#mixing-in-a-little-database)   - [Adding a little bit of functionality](#adding-a-little-bit-of-functionality) - [To Do](#to-do)",
+  "main": "index.js",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "express": "^4.16.2",
+    "mysql": "^2.15.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UMM-CSci-4453-Fall-2017/lab-7-taco-kimchi-1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UMM-CSci-4453-Fall-2017/lab-7-taco-kimchi-1/issues"
+  },
+  "homepage": "https://github.com/UMM-CSci-4453-Fall-2017/lab-7-taco-kimchi-1#readme"
+}
