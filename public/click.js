@@ -8,7 +8,8 @@ function ButtonCtrl($scope,buttonApi){
    $scope.errorMessage='';
    $scope.isLoading=isLoading;
    $scope.refreshButtons=refreshButtons;
-   $scope.buttonClick=buttonClick;
+    $scope.buttonClick=buttonClick;
+    $scope.deleteClick=deleteClick;
    $scope.currentTrans=[];
    $scope.total = 0;
 
@@ -39,6 +40,15 @@ function ButtonCtrl($scope,buttonApi){
         })
         .error(function(){$scope.errorMessage="Unable click";});
   }
+
+    function deleteClick($event){
+        buttonApi.removeButton($event.target.id)
+            .success(function(currentTrans){
+                $scope.currentTrans = currentTrans;
+                $scope.total = getTotalAmount(currentTrans);
+            })
+            .error(function(){$scope.errorMessage="Unable click";});
+    }
   refreshButtons();  //make sure the buttons are loaded
 
 }
@@ -61,6 +71,11 @@ function buttonApi($http,apiUrl){
       var url = apiUrl+'/click?id='+id;
 //      console.log("Attempting with "+url);
       return $http.get(url); // Easy enough to do this way
-    }
+    },
+      removeButton: function(invID) {
+          var url = apiUrl+'/delete?id='+invID.substring(6);
+          console.log(invID.substring(6));
+          return $http.get(url);
+      }
  };
 }

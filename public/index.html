@@ -25,10 +25,8 @@
            <h3 class="text-danger">{{errorMessage}}</h3>
          </div>
        </div>
-       <div id="transaction-table">
-         <ul class="list-group">
-           <li class="list-group-item" ng-repeat='eachItem in currentTrans'>{{eachItem.label}} #{{eachItem.amount}} ${{(eachItem.price * eachItem.amount).toFixed(2)}}</li>
-         </ul>
+       <div class="list-group" id="transaction-table">
+         <button type="button" class="list-group-item" id="invID-{{eachItem.invID}}" ng-repeat='eachItem in currentTrans' ng-click="deleteClick($event);">{{eachItem.label}} #{{eachItem.amount}} ${{(eachItem.price * eachItem.amount).toFixed(2)}}</button>
          <div class="alert alert-info" role="alert">Total: ${{total}}</div>
        </div>
      </div>
