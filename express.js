@@ -118,9 +118,27 @@ app.get("/list", function(req,res) {
 });
 
 // remove item(s) from current transaction
-app.delete("/delete", function(res,res) {
+app.get("/delete", function(req,res) {
+    // invID
+    var invID = req.param('id');
+
+    deleteItem(DBF, invID)
+        .then(function (currentTransaction) {
+            return transaction(DBF);
+        })
+        .then (function (currentTransaction) {
+            res.send(currentTransaction);
+            return currentTransaction;
+        })
+        .then(DBF.releaseDBF)
+        .catch(function(err){console.log("DANGER:",err)});
 
 });
-// Your other API handlers go here!
+
+function deleteItem(setup, invID) {
+    var sql = 'Delete from Tony.current_trans where invID = ' + invID;
+    setup.generateConnection();
+    return setup.query(mysql.format(sql)); // Return a promise
+}
 
 app.listen(port);
