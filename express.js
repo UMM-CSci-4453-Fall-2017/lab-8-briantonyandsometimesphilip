@@ -8,9 +8,8 @@ port = process.env.PORT || 1337;
 
 credentials.host='ids.morris.umn.edu'; //setup database credentials
 
-var connection = mysql.createConnection(credentials); // setup the connection
-
-connection.connect(function(err){if(err){console.log(error)}});
+// Open the connection and a pool
+DBF.generateConnection();
 
 app.use(express.static(__dirname + '/public'));
 
@@ -29,7 +28,6 @@ app.get("/buttons",function(req,res){
   .then(function (results) {
     res.send(results);
   })
-  .then(DBF.releaseDBF)
   .catch(function(err){console.log("DANGER:",err)});
 });
 
@@ -64,7 +62,6 @@ app.get("/click",function(req,res){
   .then(function (currentTransaction) {
     res.send(currentTransaction);
   })
-  .then(DBF.releaseDBF)
   .catch(function(err){console.log("DANGER:",err)});
 });
 
@@ -99,7 +96,6 @@ app.get("/delete", function(req,res) {
     res.send(currentTransaction);
     return currentTransaction;
   })
-  .then(DBF.releaseDBF)
   .catch(function(err){console.log("DANGER:",err)});
 
 });
@@ -108,7 +104,6 @@ app.get("/delete", function(req,res) {
 // Takes the imported db-setup and sql query string, and
 // returns the result of the query as promise.
 function queryPromiser(setup, sqlQuery) {
-  setup.generateConnection();
   return setup.query(mysql.format(sqlQuery)); // Return a promise
 }
 
