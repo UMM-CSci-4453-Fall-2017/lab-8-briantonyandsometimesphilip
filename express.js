@@ -39,18 +39,57 @@ var getDatabases=function(db){//Returns a promise that can take a handler ready 
 }
 
 // update the current transaction table to reflect the-item button clicked
-app.post("/click",function(req,res){
-  var id = req.param('id');
-  var sql = 'UPDATE Tony.till_inventory SET amount = amount + 1 WHERE ID = ' + id;
-  console.log("is this the id of the thing?  " + id);
-  console.log("Attempting sql ->"+sql+"<-");
+app.get("/click",function(req,res){
+  // buttonID
+  var btnID = req.param('id');
+  console.log(btnID);
+  var itemInfo = null;
 
-  connection.query(sql,(function(res){return function(err,rows,fields){
-     if(err){console.log("We have an insertion error:");
-             console.log(err);}
-     res.send(err); // Let the upstream guy know how it went
-  }})(res));
+  getItemInfo(DBF, btnID)
+  .then(function (idResult) {
+    itemInfo = idResult[0];
+    console.log(itemInfo);
+    return isValid(DBF, itemInfo.invID);
+    })
+  .then(function (existResult) {
+    res.send();
+    if (existResult[0].isValid) {
+      // Increase amount by 1
+      return increaseItemAmount(DBF, itemInfo);
+    } else {
+      // Create a new one
+      return createItemRow(DBF, itemInfo);
+    }
+  })
+  .then(DBF.releaseDBF)
+  .catch(function(err){console.log("DANGER:",err)});
 });
+
+function getItemInfo(setup , btnID) {
+  var sql = 'select invID, label, price from Tony.till_buttons where buttonID = ' + btnID;
+  setup.generateConnection();
+  return setup.query(mysql.format(sql)); // Return a promise
+}
+
+function isValid(setup, invID) {
+  var sql = 'select exists (select invID from Tony.current_trans where invID = ' + invID + ') as isValid';
+  setup.generateConnection();
+  return setup.query(mysql.format(sql)); // Return a promise
+}
+
+function increaseItemAmount(setup, itemInfo) {
+  var sql = 'UPDATE Tony.current_trans SET amount = amount + 1 WHERE invID = ' + itemInfo.invID;
+  setup.generateConnection();
+  return setup.query(mysql.format(sql)); // Return a promise
+}
+
+function createItemRow(setup, itemInfo) {
+  var sql = 'insert into Tony.current_trans values (' + itemInfo.invID + ',' + 1 + ',\"' + itemInfo.label + '\",' + itemInfo.price + ')';
+  setup.generateConnection();
+  return setup.query(mysql.format(sql)); // Return a promise
+}
+
+
 
 // TODO for lab 9
 // complete the current transaction and clear the transaction table
@@ -73,11 +112,6 @@ app.get("/list", function(req,res) {
 app.delete("/delete", function(res,res) {
 
 });
-
-function rowExists(ID){
-  var sql = mysql.format('SELECT EXISTS (SELECT ID FROM till_inventory WHERE ID = ' + ID + ')');
-
-}
 // Your other API handlers go here!
 
 app.listen(port);
