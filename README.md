@@ -1,11 +1,29 @@
 # Lab8
+
+## Tony's Group
+
+### Group members:
+* Tony S.
+* Philip B.
+* Brian C.
+
+### Database containing the tables
+* "Tony" (table name: till\_buttons, current\_trans)
+
+### Supported API calls
+* `/buttons`
+* `/click`
+* `/delete`
+
+<hr>
+
 Be sure to get enough REST
 
 Now you are going to expand upon your work from the previous lab.  This is going to require the following components:
 
 * A REST Interface (described in light detail below)
 * An angular template (with javascript) to produce the web-page outputs
-* A good understanding of how to manipulate tables 
+* A good understanding of how to manipulate tables
 
 ## The REST interface
 
@@ -169,7 +187,7 @@ For this week's lab I would like you to add the following functionality:
 * Add a list of some sort to your cash register to keep track of items that are part of the current transaction
 * Add a total to the list (you can do this purely in javascript if you like)
 * Add the ability to remove an item from your list by clicking on it.
- 
+
 You can look at my [online example](http://146.57.34.125:1337/listTest.html), to see what I'd like you to aim for.
 
 If you totally nail this you can begin preparing for next week by adding the ability to
@@ -178,5 +196,3 @@ If you totally nail this you can begin preparing for next week by adding the abi
 * create a printable receipt (a javascript popup will suffice),
 * create a "SALE" button, the infrastructure to support it, and implement the functionality,
 * create a "VOID" button and implement the functionality.
- 
-
