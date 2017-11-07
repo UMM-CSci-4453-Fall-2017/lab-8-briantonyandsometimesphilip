@@ -42,7 +42,6 @@ var getDatabases=function(db){//Returns a promise that can take a handler ready 
 app.get("/click",function(req,res){
   // buttonID
   var btnID = req.param('id');
-  console.log(btnID);
   var itemInfo = null;
 
   getItemInfo(DBF, btnID)
@@ -52,7 +51,6 @@ app.get("/click",function(req,res){
     return isValid(DBF, itemInfo.invID);
     })
   .then(function (existResult) {
-    res.send();
     if (existResult[0].isValid) {
       // Increase amount by 1
       return increaseItemAmount(DBF, itemInfo);
@@ -60,6 +58,12 @@ app.get("/click",function(req,res){
       // Create a new one
       return createItemRow(DBF, itemInfo);
     }
+  })
+  .then(function (dummy) {
+    return transaction(DBF);
+  })
+  .then(function (currentTransaction) {
+    res.send(currentTransaction);
   })
   .then(DBF.releaseDBF)
   .catch(function(err){console.log("DANGER:",err)});
@@ -89,6 +93,11 @@ function createItemRow(setup, itemInfo) {
   return setup.query(mysql.format(sql)); // Return a promise
 }
 
+function transaction(setup) {
+  var sql = 'select * from Tony.current_trans';
+  setup.generateConnection();
+  return setup.query(mysql.format(sql)); // Return a promise
+}
 
 
 // TODO for lab 9

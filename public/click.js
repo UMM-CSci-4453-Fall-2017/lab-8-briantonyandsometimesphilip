@@ -9,6 +9,8 @@ function ButtonCtrl($scope,buttonApi){
    $scope.isLoading=isLoading;
    $scope.refreshButtons=refreshButtons;
    $scope.buttonClick=buttonClick;
+   $scope.currentTrans=[];
+   $scope.total = 0;
 
    var loading = false;
 
@@ -31,11 +33,22 @@ function ButtonCtrl($scope,buttonApi){
   function buttonClick($event){
      $scope.errorMessage='';
      buttonApi.clickButton($event.target.id)
-        .success(function(){})
+        .success(function(currentTrans){
+          $scope.currentTrans = currentTrans;
+          $scope.total = getTotalAmount(currentTrans);
+        })
         .error(function(){$scope.errorMessage="Unable click";});
   }
   refreshButtons();  //make sure the buttons are loaded
 
+}
+
+function getTotalAmount(currentTrans) {
+  var total = 0;
+  for (var i = 0; i < currentTrans.length; i++) {
+    total += currentTrans[i].price * currentTrans[i].amount;
+  }
+  return total.toFixed(2);
 }
 
 function buttonApi($http,apiUrl){
@@ -51,4 +64,3 @@ function buttonApi($http,apiUrl){
     }
  };
 }
-

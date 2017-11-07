@@ -6,6 +6,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.4/angular.min.js"></script>
     <script src="click.js"></script>
+    <style>
+      #transaction-table {
+        position: fixed;
+        left: 500px;
+      }
+    </style>
 </head>
 <body ng-app="buttons">
 <div class="container-fluid">
@@ -19,7 +25,15 @@
            <h3 class="text-danger">{{errorMessage}}</h3>
          </div>
        </div>
+       <div id="transaction-table">
+         <ul class="list-group">
+           <li class="list-group-item" ng-repeat='eachItem in currentTrans'>{{eachItem.label}} #{{eachItem.amount}} ${{(eachItem.price * eachItem.amount).toFixed(2)}}</li>
+         </ul>
+         <div class="alert alert-info" role="alert">Total: ${{total}}</div>
+       </div>
      </div>
+
+     <!-- Create a table of it -->
 </div>
 </body>
 </html>
