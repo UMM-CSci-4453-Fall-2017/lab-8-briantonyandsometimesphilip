@@ -11,9 +11,9 @@
 * "Tony" (table name: till\_buttons, current\_trans)
 
 ### Supported API calls
-* `/buttons`
-* `/click`
-* `/delete`
+* `/buttons` - Gets button contents from sql table: `till_buttons`
+* `/click` - Updates the amount of the specified item and returns the contents of the table: `current_trans`
+* `/delete` - Deletes the specified item from the sql table: `current_trans`, and returns the contents of the table
 
 <hr>
 
